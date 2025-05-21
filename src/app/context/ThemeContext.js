@@ -1,11 +1,20 @@
-'use clinet';
+'use client';
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children}) {
     const [theme, setTheme] = useState('light');
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            document.documentElement.classList.remove('dark');
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        }
+    }, [theme]);
 
     const ToggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light');
